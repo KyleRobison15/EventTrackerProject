@@ -91,7 +91,7 @@ public class RequisitionController {
 		req = reqSrv.updateReq(req);
 		
 		if (req == null) {
-			res.setStatus(400);
+			res.setStatus(404);
 		}
 		
 		return req;
@@ -112,6 +112,9 @@ public class RequisitionController {
 		
 		if (!isDeleted) {
 			res.setStatus(400);
+		}
+		else {
+			res.setStatus(204);
 		}
 		
 		return isDeleted;

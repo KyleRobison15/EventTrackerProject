@@ -17,24 +17,19 @@
 | POST      | `/api/reqs`                         | Representation of an order             | Representation of created order      | Create a new order               |
 | PUT       | `/api/reqs`                         | Representation of an order             | Representation of updated order      | Update or replace an order       |
 | DELETE    | `/api/reqs/{id}`                    |                                        | Boolean - isDeleted                  | Delete an order                  |
+| GET       | `/api/products`                     |                                        | List of all products                 | Get all products                 |
+| GET       | `/api/products/{id}`                |                                        | Representation of a single product   | Get product by ID                |
+| POST      | `/api/products`                     | Representation of a product            | Representation of created product    | Create a new product             |
+| PUT       | `/api/products`                     | Representation of a product            | Representation of updated product    | Update or replace a product      |
+| DELETE    | `/api/products/{id}`                |                                        | Boolean - isDeleted                  | Delete a product                 |
+
 
 
 ## CRUD Operations Needed
 
-## Requisition:
-* Get all orders
-* Get order by ID
-* Get orders by product
-* Get orders by customer
-* Req create
-* Req update
-* Req delete
-
 ## Product:
 * Get all products
 * Get product by ID
-* Get products by price range
-* Get products by name keyword search
 * Product create
 * Product update
 * Product delete
