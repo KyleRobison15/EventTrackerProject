@@ -18,7 +18,7 @@ class RequisitionTest {
 
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private Requisition order;
+	private Requisition req;
 
 
 	@BeforeAll
@@ -34,27 +34,37 @@ class RequisitionTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		order = em.find(Requisition.class, 1); 
+		req = em.find(Requisition.class, 1); 
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close(); 
-		order=null; 
+		req=null; 
 	}
 
 	@Test
-	@DisplayName("TEST: Order Mappings") 
+	@DisplayName("TEST: Req Mappings") 
 	void test1() {
-		assertNotNull(order);
+		assertNotNull(req);
 		
-		assertEquals(2021, order.getDatePlaced().getYear());
-		assertEquals(7, order.getDatePlaced().getMonthValue()); //datePlaced mappings
-		assertEquals(30, order.getDatePlaced().getDayOfMonth());
+		assertEquals(2021, req.getDatePlaced().getYear());
+		assertEquals(7, req.getDatePlaced().getMonthValue()); //datePlaced mappings
+		assertEquals(30, req.getDatePlaced().getDayOfMonth());
 		
-		assertEquals(2021, order.getDueDate().getYear());
-		assertEquals(8, order.getDueDate().getMonthValue()); //dueDate mappings
-		assertEquals(02, order.getDueDate().getDayOfMonth());
+		assertEquals(2021, req.getDueDate().getYear());
+		assertEquals(8, req.getDueDate().getMonthValue()); //dueDate mappings
+		assertEquals(02, req.getDueDate().getDayOfMonth());
+		
+		assertEquals("Erin",req.getCustomer().getFirstName());
+		assertEquals("Gates",req.getCustomer().getLastName());
+		assertEquals("eringates@example.com",req.getCustomer().getEmail());
+		assertEquals("1234567890",req.getCustomer().getPhone());
+		assertEquals("1234 N Nevada Ave",req.getCustomer().getStreet());
+		assertEquals("Colorado Springs",req.getCustomer().getCity());
+		assertEquals("CO",req.getCustomer().getStateAbbreviation());
+		assertEquals("80903",req.getCustomer().getPostalCode());
+		
 
 	}
 

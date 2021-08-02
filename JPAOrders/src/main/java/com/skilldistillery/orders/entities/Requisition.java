@@ -1,16 +1,22 @@
 package com.skilldistillery.orders.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Requisition {
 
+/////////////////////// FIELDS ///////////////////////////
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -21,8 +27,19 @@ public class Requisition {
 	@Column(name="due_date")
 	private LocalDateTime dueDate;
 	
+	@ManyToOne
+	@JoinColumn(name="customer_id")
+	private Customer customer;
+	
+	@ManyToMany(mappedBy="reqs")
+	private List<Product> products;
+
+/////////////////////// CONSTRUCTORS ///////////////////////////
+	
 	public Requisition() {}
 
+/////////////////////// Methods ///////////////////////////
+	
 	public int getId() {
 		return id;
 	}
@@ -45,6 +62,22 @@ public class Requisition {
 
 	public void setDueDate(LocalDateTime dueDate) {
 		this.dueDate = dueDate;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 	@Override

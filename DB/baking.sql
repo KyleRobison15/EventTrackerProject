@@ -70,18 +70,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `order_product`
+-- Table `requisition_product`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `order_product` ;
+DROP TABLE IF EXISTS `requisition_product` ;
 
-CREATE TABLE IF NOT EXISTS `order_product` (
-  `order_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `requisition_product` (
+  `requisition_id` INT NOT NULL,
   `product_id` INT NOT NULL,
-  PRIMARY KEY (`order_id`, `product_id`),
+  PRIMARY KEY (`requisition_id`, `product_id`),
   INDEX `fk_order_has_product_product1_idx` (`product_id` ASC),
-  INDEX `fk_order_has_product_order1_idx` (`order_id` ASC),
+  INDEX `fk_order_has_product_order1_idx` (`requisition_id` ASC),
   CONSTRAINT `fk_order_has_product_order1`
-    FOREIGN KEY (`order_id`)
+    FOREIGN KEY (`requisition_id`)
     REFERENCES `requisition` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -129,6 +129,16 @@ COMMIT;
 START TRANSACTION;
 USE `bakingdb`;
 INSERT INTO `product` (`id`, `name`, `unit_quantity`, `unit_price`, `image_url`) VALUES (1, 'Bagels', 6, 8, 'https://images.unsplash.com/photo-1585445490387-f47934b73b54?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `requisition_product`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `bakingdb`;
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (1, 1);
 
 COMMIT;
 
