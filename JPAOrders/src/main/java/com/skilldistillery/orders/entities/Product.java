@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /////////////////////// FIELDS ///////////////////////////
 
 @Entity
@@ -33,6 +35,7 @@ public class Product {
 	@Column(name="image_url")
 	private String imageUrl;
 	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.PERSIST) // If I have an actor, and it has a list of films. ALSO persist my list of films
 	@JoinTable(name="requisition_product", 
 		joinColumns=@JoinColumn(name= "product_id"), 

@@ -8,12 +8,44 @@
 ## REST Endpoints
 * Make a markdown table designing these in advance
 
-| HTTP Verb | URI                  | Request Body | Response Body | Purpose |
-|-----------|----------------------|--------------|---------------|---------|
-| GET       | `/api/v1/books`      |              | Collection of representations of all _book_ resources | **List** or **collection** endpoint |
-| GET       | `/api/v1/books/17`   |              | Representation of _book_ `17` | **Retrieve** endpoint |
-| POST      | `/api/v1/books`      | Representation of a new _book_ resource | Description of the result of the operation | **Create** endpoint |
-| PUT       | `/api/v1/books/17`   | Representation of a new version of _book_ `17` | | **Replace** endpoint |
-| PATCH     | `/api/v1/books/17`   | Description of changes to make to _book_ `17` | | **Update** endpoint |
-| DELETE    | `/api/v1/books/17`   |              | | **Delete** route |
-| GET       | `/api/v1`            |              | Description of the API and its endpoints | **Index** endpoint |
+| HTTP Verb | URI                                 | Request Body                           | Response Body                        | Purpose                          |
+|-----------|-------------------------------------|----------------------------------------|--------------------------------------|----------------------------------|
+| GET       | `/api/reqs`                         |                                        | List of all orders                   | Get all orders                   |
+| GET       | `/api/reqs/{id}`                    |                                        | Representation of a single order     | Get order by ID                  |   
+| GET       | `/api/products/{id}/reqs`           |                                        | List of orders                       | Get orders by product            |
+| GET       | `/api/customers/{id}/reqs`          |                                        | List of orders                       | Get orders by customer           |
+| POST      | `/api/reqs`                         | Representation of an order             | Representation of created order      | Create a new order               |
+| PUT       | `/api/reqs`                         | Representation of an order             | Representation of updated order      | Update or replace an order       |
+| DELETE    | `/api/reqs/{id}`                    |                                        | Boolean - isDeleted                  | Delete an order                  |
+
+
+## CRUD Operations Needed
+
+## Requisition:
+* Get all orders
+* Get order by ID
+* Get orders by product
+* Get orders by customer
+* Req create
+* Req update
+* Req delete
+
+## Product:
+* Get all products
+* Get product by ID
+* Get products by price range
+* Get products by name keyword search
+* Product create
+* Product update
+* Product delete
+
+## Customer:
+* Get all customers
+* Get customer by ID
+* Find customer by First Name, Last Name keyword search
+* Find customer by phone
+* Find customer by email
+* Find customer by address keyword search (Street, City, State, Zip)
+* Customer create
+* Customer update
+* Customer delete

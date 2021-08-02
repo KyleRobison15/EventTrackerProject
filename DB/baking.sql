@@ -41,8 +41,8 @@ DROP TABLE IF EXISTS `requisition` ;
 
 CREATE TABLE IF NOT EXISTS `requisition` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `date_placed` VARCHAR(45) NULL,
-  `due_date` VARCHAR(45) NULL,
+  `date_placed` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `due_date` DATE NOT NULL,
   `customer_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_order_customer1_idx` (`customer_id` ASC),
@@ -108,7 +108,12 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `bakingdb`;
-INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `street`, `city`, `state_abbreviation`, `postal_code`) VALUES (1, 'Erin', 'Gates', 'eringates@example.com', '1234567890', '1234 N Nevada Ave', 'Colorado Springs', 'CO', '80903');
+INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `street`, `city`, `state_abbreviation`, `postal_code`) VALUES (1, 'Erin', 'Gates', 'eringates@example.com', '1234567890', '1217 N Nevada Ave', 'Colorado Springs', 'CO', '80903');
+INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `street`, `city`, `state_abbreviation`, `postal_code`) VALUES (2, 'Kyle', 'Robison', 'kylerobison@example.com', '1234567891', '2727 N Cascade Ave', 'Colorado Springs', 'CO', '80907');
+INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `street`, `city`, `state_abbreviation`, `postal_code`) VALUES (3, 'Guy', 'Fierri', 'guyfierri@example.com', '1234567892', '702 W Colorado Ave', 'Colorado Springs', 'CO', '80905');
+INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `street`, `city`, `state_abbreviation`, `postal_code`) VALUES (4, 'Bobby', 'Flay', 'bobbyflay@example.com', '1234567893', '140 W Mountain Ave', 'Fort Collins', 'CO', '80524');
+INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `street`, `city`, `state_abbreviation`, `postal_code`) VALUES (5, 'Gabriel', 'Landeskog', 'gabelandeskog@example.com', '1234567894', '1000 Chopper Cir', 'Denver', 'CO', '80204');
+INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `street`, `city`, `state_abbreviation`, `postal_code`) VALUES (6, 'Nathan', 'MacKinnon', 'natedawg@example.com', '1234567895', '702 S Cascade Ave', 'Colorado Springs', 'CO', '80903');
 
 COMMIT;
 
@@ -118,7 +123,16 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `bakingdb`;
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (1, '2021-07-30', '2021-08-02', 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (1, '2021-06-30', '2021-07-02', 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (2, '2021-07-01', '2021-07-02', 2);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (3, '2021-07-08', '2021-07-02', 2);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (4, '2021-07-14', '2021-07-16', 2);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (5, '2021-07-14', '2021-07-16', 3);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (6, '2021-07-14', '2021-07-16', 4);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (7, '2021-07-15', '2021-07-17', 5);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (8, '2021-07-20', '2021-07-22', 6);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (9, '2021-07-20', '2021-07-22', 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (10, '2021-07-27', '2021-07-29', 1);
 
 COMMIT;
 
@@ -129,6 +143,11 @@ COMMIT;
 START TRANSACTION;
 USE `bakingdb`;
 INSERT INTO `product` (`id`, `name`, `unit_quantity`, `unit_price`, `image_url`) VALUES (1, 'Bagels', 6, 8, 'https://images.unsplash.com/photo-1585445490387-f47934b73b54?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80');
+INSERT INTO `product` (`id`, `name`, `unit_quantity`, `unit_price`, `image_url`) VALUES (2, 'Sourdough', 1, 12, 'https://images.unsplash.com/photo-1600398138360-ae1ac2285bc3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80');
+INSERT INTO `product` (`id`, `name`, `unit_quantity`, `unit_price`, `image_url`) VALUES (3, 'English Muffins', 6, 8, 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F865284.jpg');
+INSERT INTO `product` (`id`, `name`, `unit_quantity`, `unit_price`, `image_url`) VALUES (4, 'Pretzels', 6, 8, 'https://www.recipesfromeurope.com/wp-content/uploads/2021/01/german-pretzels-in-basket-with-radler-720x540.jpg');
+INSERT INTO `product` (`id`, `name`, `unit_quantity`, `unit_price`, `image_url`) VALUES (5, 'Naan', 6, 10, 'https://rasamalaysia.com/wp-content/uploads/2019/03/naan3.jpg');
+INSERT INTO `product` (`id`, `name`, `unit_quantity`, `unit_price`, `image_url`) VALUES (6, 'Croissants', 6, 10, 'https://images.unsplash.com/photo-1623334044303-241021148842?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80');
 
 COMMIT;
 
@@ -139,6 +158,19 @@ COMMIT;
 START TRANSACTION;
 USE `bakingdb`;
 INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (1, 1);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (2, 1);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (2, 5);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (3, 6);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (4, 2);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (5, 3);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (5, 4);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (6, 2);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (7, 2);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (8, 2);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (8, 6);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (9, 1);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (10, 1);
+INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (10, 2);
 
 COMMIT;
 
