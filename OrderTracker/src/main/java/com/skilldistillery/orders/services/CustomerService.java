@@ -12,5 +12,9 @@ public interface CustomerService {
 	Customer addCustomer(Customer cust);
 	Customer updateCustomer(Customer cust);
 	boolean deleteCustomer(int custId);
+	List<Customer> findByNameSearch(String name);
+	List<Customer> findByPhoneSearch(String phone);
+	List<Customer> findByEmailSearch(String email);
+	List<Customer> findByAddressSearch(String keyword);
 	
 }

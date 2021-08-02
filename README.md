@@ -3,10 +3,9 @@
 ### Full-Stack Spring/REST/JPA Project for Skill Distillery
 
 ## Project Overview
-* TODO: description
+This application is meant to help a baking business called "Mama Gates Bakes" keep track of orders. Mama Gates Bakes is independently owned by Susan Gates, who churns out delicious baked goods and delivers them from her house! Given that Susan does everything herself, she needed a way of keeping track of orders on a daily basis so she can stay organized and deliver items on time, to the right place. This application will help her do just that by keeping track of what products Susan has to offer, what customers are purchasing those products, and when and where those orders need to be delivered. As a bonus, the application will be a great way of tracking financial data for the business as well!
 
 ## REST Endpoints
-* Make a markdown table designing these in advance
 
 | HTTP Verb | URI                                 | Request Body                           | Response Body                        | Purpose                          |
 |-----------|-------------------------------------|----------------------------------------|--------------------------------------|----------------------------------|
@@ -24,14 +23,10 @@
 | DELETE    | `/api/products/{id}`                |                                        | Boolean - isDeleted                  | Delete a product                 |
 | GET       | `/api/customers`                    |                                        | List of all customers                | Get all customers                |
 | GET       | `/api/customers/{id}`               |                                        | Representation of a single customer  | Get customer by ID               |
+| GET       | `/api/customers/name/search/{name}` |                                        | List of customers                    | Search customers by name         |
+| GET       | `/api/customers/email/search/{email}` |                                      | List of customers                    | Search customers by email        |
+| GET       | `/api/customers/phone/search/{phone}` |                                      | List of customers                    | Search customers by phone        |
+| GET       | `/api/customers/address/search/{keyword}`|                                   | List of customers                    | Search customers by address      |
 | POST      | `/api/customers`                    | Representation of a customer           | Representation of created customer   | Create a new customer            |
 | PUT       | `/api/customers`                    | Representation of a customer           | Representation of updated customer   | Update or replace a customer     |
 | DELETE    | `/api/customers/{id}`               |                                        | Boolean - isDeleted                  | Delete a customer                |
-
-## CRUD Operations Needed
-
-## Customer:
-* Find customer by First Name, Last Name keyword search
-* Find customer by phone
-* Find customer by email
-* Find customer by address keyword search (Street, City, State, Zip)
