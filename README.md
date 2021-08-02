@@ -22,25 +22,16 @@
 | POST      | `/api/products`                     | Representation of a product            | Representation of created product    | Create a new product             |
 | PUT       | `/api/products`                     | Representation of a product            | Representation of updated product    | Update or replace a product      |
 | DELETE    | `/api/products/{id}`                |                                        | Boolean - isDeleted                  | Delete a product                 |
-
-
+| GET       | `/api/customers`                    |                                        | List of all customers                | Get all customers                |
+| GET       | `/api/customers/{id}`               |                                        | Representation of a single customer  | Get customer by ID               |
+| POST      | `/api/customers`                    | Representation of a customer           | Representation of created customer   | Create a new customer            |
+| PUT       | `/api/customers`                    | Representation of a customer           | Representation of updated customer   | Update or replace a customer     |
+| DELETE    | `/api/customers/{id}`               |                                        | Boolean - isDeleted                  | Delete a customer                |
 
 ## CRUD Operations Needed
 
-## Product:
-* Get all products
-* Get product by ID
-* Product create
-* Product update
-* Product delete
-
 ## Customer:
-* Get all customers
-* Get customer by ID
 * Find customer by First Name, Last Name keyword search
 * Find customer by phone
 * Find customer by email
 * Find customer by address keyword search (Street, City, State, Zip)
-* Customer create
-* Customer update
-* Customer delete
