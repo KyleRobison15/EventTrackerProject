@@ -1,5 +1,6 @@
 package com.skilldistillery.orders.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -90,6 +91,24 @@ public class Product {
 
 	public void setReqs(List<Requisition> reqs) {
 		this.reqs = reqs;
+	}
+	
+	public void addReq(Requisition req) {
+		if (reqs == null) {
+			reqs = new ArrayList<>();
+		}
+		if (!reqs.contains(req)) {
+			reqs.add(req);
+			req.addProduct(this);
+		}
+
+	}
+
+	public void removeReq(Requisition req) {
+		if (reqs != null && reqs.contains(req)) {
+			reqs.remove(req);
+			req.removeProduct(this);
+		}
 	}
 
 	@Override

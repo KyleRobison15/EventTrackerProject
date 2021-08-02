@@ -1,6 +1,7 @@
 package com.skilldistillery.orders.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -78,6 +79,24 @@ public class Requisition {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+	
+	public void addProduct(Product product) {
+		if (products == null) {
+			products = new ArrayList<>();
+		}
+		if (!products.contains(product)) {
+			products.add(product);
+			product.addReq(this);
+		}
+
+	}
+
+	public void removeProduct(Product product) {
+		if (products != null && products.contains(product)) {
+			products.remove(product);
+			product.removeReq(this);
+		}
 	}
 
 	@Override
