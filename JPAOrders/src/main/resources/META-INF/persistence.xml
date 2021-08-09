@@ -7,7 +7,7 @@
     	<!-- START: Entities List  -->
     	
     	<class>com.skilldistillery.orders.entities.Customer</class>
-    	<class>com.skilldistillery.orders.entities.Order</class>
+    	<class>com.skilldistillery.orders.entities.Requisition</class>
     	<class>com.skilldistillery.orders.entities.Product</class>
 
 		<!-- END: Entities List -->

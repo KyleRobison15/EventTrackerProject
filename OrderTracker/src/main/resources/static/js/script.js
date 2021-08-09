@@ -37,6 +37,26 @@ function init(){
 
 	});
 
+	/////////////////// GET CUSTOMER BY ID //////////////////////
+	let customerByIdButton = document.getElementById('customerById');
+
+	customerByIdButton.addEventListener('click', function(e){
+		e.preventDefault();
+		let form =  document.getElementById('customerIdForm');
+		getCustomerById(form.id.value);
+
+	});
+
+	/////////////////// GET PRODUCT BY ID //////////////////////
+	let productByIdButton = document.getElementById('productById');
+
+	productByIdButton.addEventListener('click', function(e){
+		e.preventDefault();
+		let form =  document.getElementById('productIdForm');
+		getProductById(form.id.value);
+
+	});
+
 	/////////////////// GET ORDERS BY PRODUCT ID //////////////////////
 	let orderByProdIdButton = document.getElementById('orderByProdId');
 
@@ -87,10 +107,49 @@ function init(){
 	addOrderButton.addEventListener('click', function(e){
 		e.preventDefault();
 		let form =  document.getElementById('addOrderForm');
+		let custId = form.custSelect.value;
+		let cust = getCustomerForAdd(custId);
+		console.log(cust);
+		let checkboxes = document.getElementsByClassName('form-check-input');
+		console.log(checkboxes);
+		for (const checkbox in checkboxes){
+
+			console.log(checkbox.checked);
+		}
+
+
+		// let prods = getProductsForAdd();
+		// let reqProds = [];
+
+		// for (const prod of prods){
+		// 	if (condition) {
+				
+		// 	}
+		// }
 
 		let reqObject = {
 
 			dueDate: form.dueDate.value,
+			customer: {
+				firstName: cust.firstName,
+				lastName: cust.lastName,
+				email: cust.email,
+				phone: cust.phone,
+				street: cust.street,
+				city: cust.city,
+				stateAbbreviation: cust.stateAbbreviation,
+				postalCode: cust.postalCode
+			},
+
+			products: [
+			
+				{
+					name: "Bagels",
+					unitQuantity: 6,
+					unitPrice: 8.0,
+					imageUrl: "https://images.unsplash.com/photo-1585445490387-f47934b73b54?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+				}
+			]
 
 		};
 
@@ -206,6 +265,40 @@ function getReqById(id) {
 				displaySingleReq(req);
 			} else{
 				displayError('No order found.');
+			}
+		}
+	}
+	xhr.send();
+}
+
+/////////////////// GET CUSTOMER BY ID //////////////////////
+function getCustomerById(id) {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `api/customers/${id}`);
+	xhr.onreadystatechange = function () {
+		if(xhr.readyState === 4){
+			if (xhr.status === 200) {
+				let cust = JSON.parse(xhr.responseText);
+				displaySingleCustomer(cust);
+			} else{
+				displayError('No customer found.');
+			}
+		}
+	}
+	xhr.send();
+}
+
+/////////////////// GET PRODUCT BY ID //////////////////////
+function getProductById(id) {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `api/products/${id}`);
+	xhr.onreadystatechange = function () {
+		if(xhr.readyState === 4){
+			if (xhr.status === 200) {
+				let prod = JSON.parse(xhr.responseText);
+				displaySingleProduct(prod);
+			} else{
+				displayError('No customer found.');
 			}
 		}
 	}
@@ -612,7 +705,7 @@ function generateCustomerSelect(){
 	let selectedOpt = document.createElement('option');
 
 	selectedOpt.classList.add('clear');
-	selectedOpt.textContent = 'Select A Customer';
+	selectedOpt.textContent = 'Select Existing Customer';
 	selectedOpt.selected = true;
 	custSelect.appendChild(selectedOpt);
 
@@ -640,4 +733,39 @@ function generateCustomerSelect(){
 	}
 	xhr.send();
 
+}
+
+function getCustomerForAdd(id) {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `api/customers/${id}`);
+	xhr.onreadystatechange = function () {
+		if(xhr.readyState === 4){
+			if (xhr.status === 200) {
+				let cust = JSON.parse(xhr.responseText);
+
+				console.log(xhr.responseText);
+				console.log(cust);
+				return cust;
+			} else{
+				displayError('No customer found.');
+			}
+		}
+	}
+	xhr.send();
+}
+
+function getProductsForAdd() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `api/products`);
+	xhr.onreadystatechange = function () {
+		if(xhr.readyState === 4){
+			if (xhr.status === 200) {
+				let products = JSON.parse(xhr.responseText);
+				return products;
+			} else{
+				displayError('No products found.');
+			}
+		}
+	}
+	xhr.send();
 }

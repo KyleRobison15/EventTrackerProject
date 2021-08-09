@@ -77,6 +77,19 @@
 							<div class="col">
 								<button type="submit" name="allCustomers" id="allCustomers" class="btn btn-outline-dark">Get All Customers</button>
 								<button type="submit" name="addCustomer" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add Customer</button>
+
+								<!-- ////////////////////////////////////// GET CUSTOMER BY CUSTOMER ID /////////////////////////////////////// -->	
+								<form id="customerIdForm">
+									<div class="row">
+										<div class="col">
+											<input type="number" class="form-control" name="id" placeholder="Enter Customer ID" required>
+										</div>
+										<div class="col">
+											<button type="submit" name="customerById" id="customerById" class="btn btn-outline-dark">Get Customer</button>
+										</div>
+									</div>
+								</form>
+
 							</div>
 						</div>
 					</div>
@@ -89,6 +102,19 @@
 							<div class="col">
 								<button type="submit" name="allProducts" id="allProducts" class="btn btn-outline-dark">Get All Products</button>
 								<button type="submit" name="addProduct" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
+							
+								<!-- ////////////////////////////////////// GET PRODUCT BY PRODUCT ID /////////////////////////////////////// -->	
+								<form id="productIdForm">
+									<div class="row">
+										<div class="col">
+											<input type="number" class="form-control" name="id" placeholder="Enter Product ID" required>
+										</div>
+										<div class="col">
+											<button type="submit" name="productById" id="productById" class="btn btn-outline-dark">Get Product</button>
+										</div>
+									</div>
+								</form>
+							
 							</div>
 						</div>
 					</div>
@@ -176,7 +202,7 @@
 				<form id="addOrderForm" name="addOrderForm">
 					<label>Due Date</label><input class="form-control" type="date" id="dueDate" name="dueDate">
 					<select class="form-select clear" aria-label="Default select example" id="custSelect">
-						<option selected id="selectedOpt">Select A Customer</option>
+						<option selected id="selectedOpt">Select Existing Customer</option>
 					</select>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="1">

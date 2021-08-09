@@ -48,6 +48,20 @@ public class Customer {
 	
 	public Customer() {}
 	
+	public Customer(String firstName, String lastName, String email, String phone, String street, String city,
+			String stateAbbreviation, String postalCode, List<Requisition> reqs) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.street = street;
+		this.city = city;
+		this.stateAbbreviation = stateAbbreviation;
+		this.postalCode = postalCode;
+		this.reqs = reqs;
+	}
+
 /////////////////////// METHODS ///////////////////////////
 	
 	public int getId() {

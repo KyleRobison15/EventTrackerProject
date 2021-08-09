@@ -2,6 +2,8 @@ package com.skilldistillery.orders.services;
 
 import java.util.List;
 
+import com.skilldistillery.orders.entities.Customer;
+import com.skilldistillery.orders.entities.Product;
 import com.skilldistillery.orders.entities.Requisition;
 
 public interface RequisitionService {
