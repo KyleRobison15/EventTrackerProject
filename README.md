@@ -1,8 +1,7 @@
 # Event Tracker Project
+![Image of Baked Goods](https://images.pexels.com/photos/1070946/pexels-photo-1070946.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)
 
 ### Full-Stack Spring/REST/JPA Project for Skill Distillery
-
-![Image of Baked Goods](https://octodex.github.com/images/yaktocat.png)
 
 ## Project Overview
 This application is meant to help a baking business called "Mama Gates Bakes" keep track of orders. Mama Gates Bakes is independently owned by Susan Gates, who churns out delicious baked goods and delivers them from her house! Given that Susan does everything herself, she needed a way of keeping track of orders on a daily basis so she can stay organized and deliver items on time, to the right place. This application will help her do just that by keeping track of what products Susan has to offer, what customers are purchasing those products, and when and where those orders need to be delivered. As a bonus, the application will be a great way of tracking financial data for the business as well!
@@ -40,3 +39,4 @@ To execute basic CRUD operations for this project, I utilized JavaScript to make
 | DELETE    | `/api/customers/{id}`               |                                        | Boolean - isDeleted                  | Delete a customer                |
 
 ## MySQL Database Schema
+![Image of Database Schema](file:///Users/robison/SD/Java/EventTracker/OrderTracker/src/main/resources/static/js/schema.jpg)
