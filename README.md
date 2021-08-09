@@ -39,4 +39,4 @@ To execute basic CRUD operations for this project, I utilized JavaScript to make
 | DELETE    | `/api/customers/{id}`               |                                        | Boolean - isDeleted                  | Delete a customer                |
 
 ## MySQL Database Schema
-![Image of Database Schema](file:///Users/robison/SD/Java/EventTracker/OrderTracker/src/main/resources/static/js/schema.jpg)
+![Image of Database Schema](/OrderTracker/src/main/resources/static/js/schema.jpg)
