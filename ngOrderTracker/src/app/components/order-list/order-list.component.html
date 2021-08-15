@@ -1,6 +1,62 @@
-<h1 class="display-6">List of Orders: </h1>
-<ul>
 
-  <li *ngFor="let order of orders">{{order | json}}</li>
+<div class="row align-items-center">
+  <div class="col">
+    <h1 class="display-1">Orders </h1>
+  </div>
+  <div class="col">
+    <button class="btn btn-success" (click)="open(addOrder)">New Order</button>
+  </div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Date Placed</th>
+      <th scope="col">Due Date</th>
+      <th scope="col">Products</th>
+      <th scope="col">Customer</th>
+      <th scope="col">Completed</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{order.dueDate}}</td>
+      <td>{{order.datePlaced}}</td>
+      <td>
+        <ul>
+          <li *ngFor="let prod of order.products">{{prod.name}}</li>
+        </ul>
+      </td>
+      <td>{{order.customer.firstName}} {{order.customer.lastName}}</td>
+      <td>{{order.completed}}</td>
+      <td><button class="btn btn-danger">X</button></td>
+    </tr>
+  </tbody>
+</table>
 
-</ul>
+<ng-template #addOrder let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Order</h4>
+    <button type="button" class="btn btn-outline-dark" aria-label="Close" aria-hidden="true" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <label for="" class="form-label">Due Date</label>
+    <form class="form-inline">
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>

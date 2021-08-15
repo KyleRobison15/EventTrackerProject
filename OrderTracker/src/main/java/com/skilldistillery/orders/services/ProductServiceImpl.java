@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.orders.entities.Product;
+import com.skilldistillery.orders.entities.Requisition;
 import com.skilldistillery.orders.repositories.ProductRepository;
+import com.skilldistillery.orders.repositories.RequisitionRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductRepository prodRepo;
+	
+	@Autowired
+	private RequisitionRepository reqRepo;
 	
 	@Override
 	public List<Product> getAllProducts() {

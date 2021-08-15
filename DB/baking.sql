@@ -35,6 +35,25 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `user`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `user` ;
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` INT NOT NULL,
+  `first_name` VARCHAR(100) NOT NULL,
+  `last_name` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `business_name` VARCHAR(255) NULL,
+  `enabled` TINYINT(4) NULL,
+  `role` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `requisition`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `requisition` ;
@@ -44,11 +63,19 @@ CREATE TABLE IF NOT EXISTS `requisition` (
   `date_placed` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `due_date` DATE NOT NULL,
   `customer_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `completed` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_order_customer1_idx` (`customer_id` ASC),
+  INDEX `fk_requisition_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_order_customer1`
     FOREIGN KEY (`customer_id`)
     REFERENCES `customer` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_requisition_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -70,13 +97,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `requisition_product`
+-- Table `req_product`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `requisition_product` ;
+DROP TABLE IF EXISTS `req_product` ;
 
-CREATE TABLE IF NOT EXISTS `requisition_product` (
+CREATE TABLE IF NOT EXISTS `req_product` (
   `requisition_id` INT NOT NULL,
   `product_id` INT NOT NULL,
+  `units_ordered` SMALLINT NOT NULL,
   PRIMARY KEY (`requisition_id`, `product_id`),
   INDEX `fk_order_has_product_product1_idx` (`product_id` ASC),
   INDEX `fk_order_has_product_order1_idx` (`requisition_id` ASC),
@@ -119,20 +147,30 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `bakingdb`;
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `email`, `username`, `password`, `business_name`, `enabled`, `role`) VALUES (1, 'Kyle', 'Robison', 'test@example.com', 'ExampleUser', 'password', 'ExampleBiz', 1, 'standard');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `requisition`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `bakingdb`;
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (1, '2021-06-30', '2021-07-02', 1);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (2, '2021-07-01', '2021-07-02', 2);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (3, '2021-07-08', '2021-07-02', 2);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (4, '2021-07-14', '2021-07-16', 2);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (5, '2021-07-14', '2021-07-16', 3);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (6, '2021-07-14', '2021-07-16', 4);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (7, '2021-07-15', '2021-07-17', 5);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (8, '2021-07-20', '2021-07-22', 6);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (9, '2021-07-20', '2021-07-22', 1);
-INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`) VALUES (10, '2021-07-27', '2021-07-29', 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (1, '2021-06-30', '2021-07-02', 1, 1, 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (2, '2021-07-01', '2021-07-02', 2, 1, 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (3, '2021-07-08', '2021-07-02', 2, 1, 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (4, '2021-07-14', '2021-07-16', 2, 1, 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (5, '2021-07-14', '2021-07-16', 3, 1, 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (6, '2021-07-14', '2021-07-16', 4, 1, 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (7, '2021-07-15', '2021-07-17', 5, 1, 1);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (8, '2021-08-12', '2021-08-30', 6, 1, 0);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (9, '2021-08-13', '2021-08-30', 1, 1, 0);
+INSERT INTO `requisition` (`id`, `date_placed`, `due_date`, `customer_id`, `user_id`, `completed`) VALUES (10, '2021-08-14', '2021-08-30', 1, 1, 0);
 
 COMMIT;
 
@@ -153,24 +191,24 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `requisition_product`
+-- Data for table `req_product`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `bakingdb`;
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (1, 1);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (2, 1);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (2, 5);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (3, 6);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (4, 2);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (5, 3);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (5, 4);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (6, 2);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (7, 2);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (8, 2);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (8, 6);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (9, 1);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (10, 1);
-INSERT INTO `requisition_product` (`requisition_id`, `product_id`) VALUES (10, 2);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (1, 1, 2);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (2, 1, 1);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (2, 5, 1);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (3, 6, 1);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (4, 2, 2);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (5, 3, 2);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (5, 4, 1);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (6, 2, 1);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (7, 2, 1);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (8, 2, 2);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (8, 6, 2);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (9, 1, 3);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (10, 1, 2);
+INSERT INTO `req_product` (`requisition_id`, `product_id`, `units_ordered`) VALUES (10, 2, 1);
 
 COMMIT;
 

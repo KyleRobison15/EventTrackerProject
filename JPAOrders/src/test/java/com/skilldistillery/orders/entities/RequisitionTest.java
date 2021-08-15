@@ -2,6 +2,9 @@ package com.skilldistillery.orders.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -48,22 +51,32 @@ class RequisitionTest {
 	void test1() {
 		assertNotNull(req);
 		
+		assertTrue(req.isCompleted());
+		
 		assertEquals(2021, req.getDatePlaced().getYear());
-		assertEquals(7, req.getDatePlaced().getMonthValue()); //datePlaced mappings
+		assertEquals(6, req.getDatePlaced().getMonthValue()); //datePlaced mappings
 		assertEquals(30, req.getDatePlaced().getDayOfMonth());
 		
 		assertEquals(2021, req.getDueDate().getYear());
-		assertEquals(8, req.getDueDate().getMonthValue()); //dueDate mappings
+		assertEquals(7, req.getDueDate().getMonthValue()); //dueDate mappings
 		assertEquals(02, req.getDueDate().getDayOfMonth());
 		
 		assertEquals("Erin",req.getCustomer().getFirstName());
 		assertEquals("Gates",req.getCustomer().getLastName());
 		assertEquals("eringates@example.com",req.getCustomer().getEmail());
 		assertEquals("1234567890",req.getCustomer().getPhone());
-		assertEquals("1234 N Nevada Ave",req.getCustomer().getStreet());
+		assertEquals("1217 N Nevada Ave",req.getCustomer().getStreet());
 		assertEquals("Colorado Springs",req.getCustomer().getCity());
 		assertEquals("CO",req.getCustomer().getStateAbbreviation());
 		assertEquals("80903",req.getCustomer().getPostalCode());
+		
+		assertEquals(1, req.getReqProducts().size());
+		
+		List<ReqProduct> rpList = req.getReqProducts();
+		for (ReqProduct rp : rpList) {
+			System.out.println(rp.getProd());
+			System.out.println((rp.getProd().getUnitPrice()) * rp.getUnitsOrdered());  // Console test
+		}
 		
 
 	}

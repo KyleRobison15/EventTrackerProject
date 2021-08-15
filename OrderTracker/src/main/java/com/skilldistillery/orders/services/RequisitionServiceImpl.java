@@ -2,132 +2,217 @@ package com.skilldistillery.orders.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.orders.entities.Customer;
 import com.skilldistillery.orders.entities.Product;
+import com.skilldistillery.orders.entities.ReqProduct;
 import com.skilldistillery.orders.entities.Requisition;
+import com.skilldistillery.orders.entities.User;
 import com.skilldistillery.orders.repositories.CustomerRepository;
 import com.skilldistillery.orders.repositories.ProductRepository;
+import com.skilldistillery.orders.repositories.ReqProductRepo;
 import com.skilldistillery.orders.repositories.RequisitionRepository;
+import com.skilldistillery.orders.repositories.UserRepository;
 
 @Service
 public class RequisitionServiceImpl implements RequisitionService {
-	
+
 	@Autowired
 	private RequisitionRepository reqRepo;
-	
+
 	@Autowired
 	private CustomerRepository custRepo;
+
+	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
+	private ReqProductRepo reqProdRepo;
 	
 	@Autowired
 	private ProductRepository prodRepo;
-	
-	@Override
-	public List<Requisition> getAllReqs() {
-		return reqRepo.findAll();
-	}
 
 	@Override
-	public Requisition getReqById(int reqId) {
-		
-		Optional<Requisition> reqOpt = reqRepo.findById(reqId);
-		
-		if (reqOpt.isPresent()) {
-			return reqOpt.get();
-		}
-		return null;
-	}
+	public List<Requisition> getAllReqs(String username) {
 
-	@Override
-	public List<Requisition> getReqsByProductId(int productId) {
-		
 		List<Requisition> reqs = null;
-		
-		if (reqRepo.existsById(productId)) {
-			reqs = reqRepo.findByProducts_Id(productId);
+		User user = userRepo.findByUsername(username);
+
+		if (user != null) {
+			reqs = reqRepo.findByUser_Username(username);
 		}
-		
+
 		return reqs;
 	}
 
 	@Override
-	public List<Requisition> getReqsByCustomerId(int customerId) {
-		List<Requisition> reqs = null;
-		
-		if (reqRepo.existsById(customerId)) {
-			reqs = reqRepo.findByCustomer_Id(customerId);
+	public Requisition getReqById(int reqId, String username) {
+
+		Requisition req = null;
+		User user = userRepo.findByUsername(username);
+
+		if (user != null) {
+			req = reqRepo.findByIdAndUser_Username(reqId, username);
 		}
-		
+
+		return req;
+	}
+
+	@Override
+	public List<Requisition> getReqsByProductId(int productId, String username) {
+
+		List<Requisition> reqs = null;
+		User user = userRepo.findByUsername(username);
+
+		if (reqRepo.existsById(productId) && user != null) {
+			reqs = reqRepo.findByProducts_IdAndUser_Username(productId, username);
+		}
+
 		return reqs;
 	}
 
 	@Override
-	public Requisition addReq(Requisition req) {
-		
-		Requisition persistedReq = null;
-		
-//		if (custRepo.existsById(cust.getId())) {
+	public List<Requisition> getReqsByCustomerId(int customerId, String username) {
+		List<Requisition> reqs = null;
+		User user = userRepo.findByUsername(username);
+
+		if (reqRepo.existsById(customerId) && user != null) {
+			reqs = reqRepo.findByCustomer_IdAndUser_Username(customerId, username);
+		}
+
+		return reqs;
+	}
+
+//	@Override
+//	public Requisition addCustomerForReqId(int reqId, Customer customer) {
+//		Optional<Requisition> reqOpt = reqRepo.findById(reqId);
+//		List<Requisition> custReqs = null;
+//		
+//		
+//		if (reqOpt.isPresent()) {
 //			
-//			req.setCustomer(cust);
+//			Requisition req = reqOpt.get();
 //			
-//		} else {
+//			custReqs = customer.getReqs();
+//			custReqs.add(req);
+//			customer.setReqs(custReqs);
+//			custRepo.saveAndFlush(customer);
 //			
-//			Customer reqCust = new Customer(cust.getFirstName(), 
-//					cust.getLastName(),
-//					cust.getEmail(),
-//					cust.getPhone(), 
-//					cust.getStreet(),
-//					cust.getCity(),
-//					cust.getStateAbbreviation(),
-//					cust.getPostalCode(),
-//					cust.getReqs());
+//			req.setCustomer(customer);
 //			
-//			custRepo.saveAndFlush(reqCust);
-//			req.setCustomer(reqCust);
+//			return reqRepo.saveAndFlush(req);
 //			
 //		}
 //		
-//		List<Product> reqProds = new ArrayList<>();
-//		
-//		for (Product prod : prods) {
-//			reqProds.add(prod);
+//		return null;
+//	}
+
+//	@Override
+//	public Requisition addProductsForReqId(int reqId, List<Product> products, String username) {
+//
+//		User user = userRepo.findByUsername(username);
+//
+//		if (user != null) {
+//
+//			Optional<Requisition> reqOpt = reqRepo.findById(reqId);
+//
+//			if (reqOpt.isPresent()) {
+//				Requisition req = reqOpt.get();
+//				for (Product product : products) {
+//					req.addProduct(product);
+//					product.addReq(req);
+//				}
+//
+//				return reqRepo.saveAndFlush(req);
+//
+//			}
+//
 //		}
-//		
-//		req.setProducts(reqProds);
-		
-		 try {
-			persistedReq = reqRepo.saveAndFlush(req);
-			
-		} catch (Exception e) {
+//		return null;
+//	}
 
-			return null;
+	@Override
+	public Requisition addReq(Requisition req, List<ReqProduct> reqProds, Customer customer, String username) {
+		
+		User user = userRepo.findByUsername(username);
+		Requisition requisition = null;
+		List<Product> products = new ArrayList<>();
+		
+		
+		if (user != null) {
+			req.setUser(user);
+			req.setCustomer(custRepo.findById(customer.getId()).get());
+			requisition = reqRepo.saveAndFlush(req);
 		}
 		
-		return persistedReq;
+		for (ReqProduct reqProduct : reqProds) {
+			Product prod = prodRepo.findById(reqProduct.getId().getProductId()).get();
+			products.add(prod);
+			reqProduct.setReq(req);
+			reqProduct.setProd(prod);
+			reqProdRepo.saveAndFlush(reqProduct);
+		}
+		
+		requisition.setProducts(products);
+		
+		return requisition;
 	}
 
 	@Override
-	public Requisition updateReq(Requisition req) {
-		Requisition persistedReq = null;
+	public Requisition updateReq(Requisition req, int reqId, List<ReqProduct> reqProds, Customer customer, String username) {
 		
-		 try {
-			persistedReq = reqRepo.saveAndFlush(req);
+		Requisition managedReq = reqRepo.findByIdAndUser_Username(reqId, username);
+		List<Product> products = new ArrayList<>();
+		List<ReqProduct> oldRps = managedReq.getReqProducts();
+		
+		if (managedReq != null) {
 			
-		} catch (Exception e) {
+			managedReq.setDatePlaced(req.getDatePlaced());
+			managedReq.setDueDate(req.getDueDate());
+			managedReq.setCompleted(req.isCompleted());
+			managedReq.setCustomer(custRepo.findById(customer.getId()).get());
+			
+			for (ReqProduct reqProduct : oldRps) {
+				reqProduct.setReq(null);
+				reqProduct.setProd(null);
+				reqProdRepo.delete(reqProduct);
+			}
 
-			return null;
+			for (ReqProduct rp : reqProds) {
+				Product prod = prodRepo.findById(rp.getId().getProductId()).get();
+				products.add(prod);
+				rp.setReq(managedReq);
+				rp.setProd(prod);
+				reqProdRepo.saveAndFlush(rp);
+			}
+			managedReq.setReqProducts(reqProds);
+			managedReq.setProducts(products);
+			
+			reqRepo.saveAndFlush(managedReq);
 		}
 		
-		return persistedReq;
+		return managedReq;
 	}
 
 	@Override
-	public boolean deleteReq(int reqId) {
-		reqRepo.deleteById(reqId);
+	public boolean deleteReq(int reqId, String username) {
+		User user = userRepo.findByUsername(username);
+		Requisition managedReq = reqRepo.findByIdAndUser_Username(reqId, username);
+		List<ReqProduct> oldRps = managedReq.getReqProducts();
+		
+		for (ReqProduct reqProduct : oldRps) {
+			reqProduct.setReq(null);
+			reqProduct.setProd(null);
+			reqProdRepo.delete(reqProduct);
+		}
+		
+		if (user != null) {
+			reqRepo.deleteById(reqId);
+		}
+		
 		return !reqRepo.existsById(reqId);
 	}
 

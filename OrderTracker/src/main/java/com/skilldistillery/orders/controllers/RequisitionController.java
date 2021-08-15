@@ -27,15 +27,24 @@ public class RequisitionController {
 	@Autowired
 	private RequisitionService reqSrv;
 	
+	String username = "ExampleUser";
+	
 	@GetMapping("reqs")
-	public List<Requisition> getAllReqs(){
-		return reqSrv.getAllReqs();
+	public List<Requisition> getAllReqs(HttpServletResponse res){
+		
+		List<Requisition> reqs = reqSrv.getAllReqs(username);
+		
+		if (reqs == null) {
+			res.setStatus(404);
+		}
+		
+		return reqs;
 	}
 	
 	@GetMapping("reqs/{id}")
 	public Requisition getReqById(@PathVariable("id") int reqId, HttpServletResponse res) {
 		
-		Requisition req = reqSrv.getReqById(reqId);
+		Requisition req = reqSrv.getReqById(reqId, username);
 		
 		if (req == null) {
 			res.setStatus(404);
@@ -47,7 +56,7 @@ public class RequisitionController {
 	@GetMapping("products/{id}/reqs")
 	public List<Requisition> getReqsByProductId(@PathVariable("id") int productId, HttpServletResponse res){
 		
-		List<Requisition> reqs = reqSrv.getReqsByProductId(productId);
+		List<Requisition> reqs = reqSrv.getReqsByProductId(productId, username);
 		
 		if (reqs == null) {
 			res.setStatus(404);
@@ -59,7 +68,7 @@ public class RequisitionController {
 	@GetMapping("customers/{id}/reqs")
 	public List<Requisition> getReqsByCustomerId(@PathVariable("id") int customerId, HttpServletResponse res){
 		
-		List<Requisition> reqs = reqSrv.getReqsByCustomerId(customerId);
+		List<Requisition> reqs = reqSrv.getReqsByCustomerId(customerId, username);
 		
 		if (reqs == null) {
 			res.setStatus(404);
@@ -71,26 +80,57 @@ public class RequisitionController {
 	@PostMapping("reqs")
 	public Requisition addReq(@RequestBody Requisition req, HttpServletResponse res, HttpServletRequest request) {
 		
-		req = reqSrv.addReq(req);
-		
-		if (req == null) {
+		try {
+			if (req == null) {
+				res.setStatus(404);
+			}
+			else {
+				
+				reqSrv.addReq(req, req.getReqProducts(), req.getCustomer(), username);
+				res.setStatus(201);
+				
+				StringBuffer url = request.getRequestURL();
+				url.append("/").append(req.getId()); 
+				res.setHeader("Location", url.toString());
+				
+			}
+		} catch (Exception e) {
 			res.setStatus(400);
-		}
-		else {
-			res.setStatus(201);
-			
-			StringBuffer url = request.getRequestURL();
-			url.append("/").append(req.getId());
-			res.setHeader("Location", url.toString());
+			e.printStackTrace();
+			req = null;
 		}
 		
 		return req;
 	}
 	
+//	@PostMapping("reqs/{id}/products")
+//	public Requisition addProductForReq(@RequestBody List<Product> prods, @PathVariable("id") Integer reqId, HttpServletResponse res, HttpServletRequest req) {
+//		
+//		Requisition order = reqSrv.addProductsForReqId(reqId, prods, username);
+//		
+//		try {
+//			if (order == null) {
+//				res.setStatus(404);
+//			}
+//			else {
+//				res.setStatus(201);
+//				
+//				StringBuffer url = req.getRequestURL();
+//				url.append("/").append(order.getId());
+//				res.setHeader("Location", url.toString());
+//				
+//			}
+//		} catch (Exception e) {
+//			res.setStatus(404);
+//		}
+//		
+//		return order;
+//	}
+	
 	@PutMapping("reqs")
 	public Requisition updateReq(@RequestBody Requisition req, HttpServletResponse res, HttpServletRequest request) {
 		
-		req = reqSrv.updateReq(req);
+		req = reqSrv.updateReq(req, req.getId(), req.getReqProducts(), req.getCustomer(), username);
 		
 		if (req == null) {
 			res.setStatus(404);
@@ -103,14 +143,15 @@ public class RequisitionController {
 	public boolean deleteReq(@PathVariable("id") int reqId, HttpServletResponse res) {
 		boolean isDeleted = false;
 		
-		Requisition req = reqSrv.getReqById(reqId);
+		Requisition req = reqSrv.getReqById(reqId, username);
+		
 		
 		if (req == null) {
 			res.setStatus(404);
 			return false;
 		}
 
-		isDeleted = reqSrv.deleteReq(reqId);
+		isDeleted = reqSrv.deleteReq(reqId, username);
 		
 		if (!isDeleted) {
 			res.setStatus(400);

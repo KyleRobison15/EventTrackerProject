@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,8 +37,12 @@ public class Product {
 	private String imageUrl;
 	
 	@JsonIgnore
+	@OneToMany(mappedBy = "prod")
+	private List<ReqProduct> reqProducts;
+	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.PERSIST) // If I have an actor, and it has a list of films. ALSO persist my list of films
-	@JoinTable(name="requisition_product", 
+	@JoinTable(name="req_product", 
 		joinColumns=@JoinColumn(name= "product_id"), 
 		inverseJoinColumns =@JoinColumn(name="requisition_id"))
 	private List<Requisition> reqs;
@@ -86,6 +91,14 @@ public class Product {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	
+	public List<ReqProduct> getReqProducts() {
+		return reqProducts;
+	}
+
+	public void setReqProducts(List<ReqProduct> reqProducts) {
+		this.reqProducts = reqProducts;
 	}
 
 	public List<Requisition> getReqs() {

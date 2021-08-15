@@ -8,7 +8,10 @@
     	
     	<class>com.skilldistillery.orders.entities.Customer</class>
     	<class>com.skilldistillery.orders.entities.Requisition</class>
+    	<class>com.skilldistillery.orders.entities.ReqProduct</class>
+    	<class>com.skilldistillery.orders.entities.ReqProductId</class>
     	<class>com.skilldistillery.orders.entities.Product</class>
+    	<class>com.skilldistillery.orders.entities.User</class>
 
 		<!-- END: Entities List -->
 		
