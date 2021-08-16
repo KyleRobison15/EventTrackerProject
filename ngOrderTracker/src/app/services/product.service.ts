@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Product } from '../models/product';
 
 @Injectable({
@@ -9,8 +10,8 @@ import { Product } from '../models/product';
 })
 export class ProductService {
 
-  baseUrl = 'http://localhost:8084/';
-  url = this.baseUrl + 'api'
+  // baseUrl = 'http://localhost:8084/';
+  url = environment.baseUrl + 'api'
 
 
   constructor(
