@@ -7,11 +7,11 @@ export class Customer {
   phone: string;
   street: string;
   city: string;
-  stateAbbr: string;
+  stateAbbreviation: string;
   postalCode: string;
 
   constructor(id: number = 0, firstName: string = '', lastName: string = '', email: string = '',
-              phone: string = '', street: string = '', city: string = '', stateAbbr: string = '', postalCode: string = '')
+              phone: string = '', street: string = '', city: string = '', stateAbbreviation: string = '', postalCode: string = '')
 
   {
     this.id = id;
@@ -21,7 +21,7 @@ export class Customer {
     this.phone = phone;
     this.street = street;
     this.city = city;
-    this.stateAbbr = stateAbbr;
+    this.stateAbbreviation = stateAbbreviation;
     this.postalCode = postalCode;
   }
 

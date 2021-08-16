@@ -80,6 +80,8 @@ public class RequisitionController {
 	@PostMapping("reqs")
 	public Requisition addReq(@RequestBody Requisition req, HttpServletResponse res, HttpServletRequest request) {
 		
+//		System.out.println(req.getCustomer());
+		
 		try {
 			if (req == null) {
 				res.setStatus(404);

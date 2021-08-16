@@ -15,7 +15,7 @@ export class Order {
   user: User;
 
   constructor(id: number = 0, datePlaced: string = '', dueDate: string = '', completed: boolean = false,
-              customer: Customer = new Customer(), reqProducts: ReqProduct[] = [], products: Product[] = [], user: User = new User())
+              customer: Customer = new Customer(), reqProducts: ReqProduct[] = [new ReqProduct, new ReqProduct, new ReqProduct, new ReqProduct], products: Product[] = [], user: User = new User())
   {
     this.id =  id;
     this.datePlaced = datePlaced;

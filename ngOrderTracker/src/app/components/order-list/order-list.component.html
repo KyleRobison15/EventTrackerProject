@@ -4,7 +4,7 @@
     <h1 class="display-1">Orders </h1>
   </div>
   <div class="col">
-    <button class="btn btn-success" (click)="open(addOrder)">New Order</button>
+    <button class="btn btn-success btn-lg" (click)="open(addOrder)">New Order</button>
   </div>
 </div>
 <table class="table">
@@ -42,21 +42,81 @@
     </button>
   </div>
   <div class="modal-body">
-    <label for="" class="form-label">Due Date</label>
-    <form class="form-inline">
-      <div class="form-group">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd"
-                 name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
-          </div>
-        </div>
+
+    <!-- /////////////////////////////// DUE DATE ////////////////////////////////////// -->
+    <label for="dueDate" class="form-label">Due Date</label>
+    <input type="date" class="form-control" name="dueDate" id="dueDate" [(ngModel)]="newOrder.dueDate">
+
+    <!-- /////////////////////////////// CUSTOMER ////////////////////////////////////// -->
+    <label for="customer" class="form-label">Customer</label>
+    <select class="form-select" aria-label="Default select example" [(ngModel)]="newOrder.customer">
+      <option value="{{cust}}" *ngFor="let cust of customers">{{cust.firstName}} {{cust.lastName}}</option>
+      <option selected>New Customer</option>
+    </select>
+
+    <!-- /////////////////////////////// PRODUCT 1 ////////////////////////////////////// -->
+    <div class="row">
+      <div class="col">
+        <label for="product1" class="form-label">Product 1</label>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="newOrder.reqProducts[0].id.prodId">
+          <option value="{{null}}"></option>
+          <option value="{{prod.id}}" *ngFor="let prod of products">{{prod.name}}</option>
+        </select>
       </div>
-    </form>
+      <div class="col">
+        <label class="form-label">Units</label>
+        <input type="number" min="0" class="form-control" [(ngModel)]="newOrder.reqProducts[0].unitsOrdered">
+      </div>
+  </div>
+
+    <!-- /////////////////////////////// PRODUCT 2 ////////////////////////////////////// -->
+    <div class="row">
+      <div class="col">
+        <label for="product2" class="form-label">Product 2</label>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="newOrder.reqProducts[1].id.prodId">
+          <option value="{{null}}"></option>
+          <option value="{{prod.id}}" *ngFor="let prod of products">{{prod.name}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <label class="form-label">Units</label>
+        <input type="number" min="0" class="form-control" [(ngModel)]="newOrder.reqProducts[1].unitsOrdered">
+      </div>
+  </div>
+
+    <!-- /////////////////////////////// PRODUCT 3 ////////////////////////////////////// -->
+    <div class="row">
+      <div class="col">
+        <label for="product3" class="form-label">Product 3</label>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="newOrder.reqProducts[2].id.prodId">
+          <option value="{{null}}"></option>
+          <option value="{{prod.id}}" *ngFor="let prod of products">{{prod.name}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <label class="form-label">Units</label>
+        <input type="number" min="0" class="form-control" [(ngModel)]="newOrder.reqProducts[2].unitsOrdered">
+      </div>
+  </div>
+
+    <!-- /////////////////////////////// PRODUCT 4 ////////////////////////////////////// -->
+    <div class="row">
+      <div class="col">
+        <label for="product4" class="form-label">Product 4</label>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="newOrder.reqProducts[3].id.prodId">
+          <option value="{{null}}"></option>
+          <option value="{{prod.id}}" *ngFor="let prod of products">{{prod.name}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <label class="form-label">Units</label>
+        <input type="number" min="0" class="form-control" [(ngModel)]="newOrder.reqProducts[3].unitsOrdered">
+      </div>
+  </div>
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    <button type="button" class="btn btn-outline-success" (click)="modal.close('Save click'); createOrder()">Add</button>
   </div>
 </ng-template>
+

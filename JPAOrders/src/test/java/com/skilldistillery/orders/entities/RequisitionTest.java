@@ -53,13 +53,7 @@ class RequisitionTest {
 		
 		assertTrue(req.isCompleted());
 		
-		assertEquals(2021, req.getDatePlaced().getYear());
-		assertEquals(6, req.getDatePlaced().getMonthValue()); //datePlaced mappings
-		assertEquals(30, req.getDatePlaced().getDayOfMonth());
-		
-		assertEquals(2021, req.getDueDate().getYear());
-		assertEquals(7, req.getDueDate().getMonthValue()); //dueDate mappings
-		assertEquals(02, req.getDueDate().getDayOfMonth());
+		assertEquals("2021-07-02", req.getDueDate());
 		
 		assertEquals("Erin",req.getCustomer().getFirstName());
 		assertEquals("Gates",req.getCustomer().getLastName());

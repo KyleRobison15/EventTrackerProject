@@ -1,0 +1,171 @@
+<!-- ///////////////////////////////////////////// CUSTOMERS TABLE ///////////////////////////////////////////// -->
+<div *ngIf="! selected">
+<div class="row align-items-center">
+  <div class="col">
+    <h1 class="display-1">Customers </h1>
+  </div>
+  <div class="col">
+    <button class="btn btn-success btn-lg" (click)="open(addCustomer)">New Customer</button>
+  </div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <td (click)="displayCustomer(customer)">{{customer.firstName}}</td>
+      <td (click)="displayCustomer(customer)">{{customer.lastName}}</td>
+      <td (click)="displayCustomer(customer)">{{customer.email}}</td>
+      <td (click)="displayCustomer(customer)">{{customer.phone}}</td>
+      <td><button class="btn btn-danger" (click)="deleteCustomer(customer.id)">X</button></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ///////////////////////////////////////////// SINGLE CUSTOMER DISPLAY ///////////////////////////////////////////// -->
+<div id="customerDetails" *ngIf="selected">
+  <h1 class="display-6">{{selected.firstName}} {{selected.lastName}}</h1>
+  <hr>
+  <ul class="list-group">
+    Email <li class="list-group-item">{{selected.email}}</li>
+    Phone <li class="list-group-item">{{selected.phone}}</li>
+    Street <li class="list-group-item">{{selected.street}}</li>
+    City <li class="list-group-item">{{selected.city}}</li>
+    State <li class="list-group-item">{{selected.stateAbbreviation}}</li>
+    Zip <li class="list-group-item">{{selected.postalCode}}</li>
+  </ul>
+  <br>
+
+  <button class="btn btn-outline-dark" (click)="displayTable()">Back</button>
+  <button class="btn btn-outline-dark" (click)="setEditCustomer(); open(editCust)">Edit</button>
+</div>
+
+<!-- ///////////////////////////////////////////// ADD CUSTOMER MODAL ///////////////////////////////////////////// -->
+<ng-template #addCustomer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Customer</h4>
+    <button type="button" class="btn btn-outline-dark" aria-label="Close" aria-hidden="true" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+    <!-- /////////////////////////////// First Name ////////////////////////////////////// -->
+      <div class="col">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="newCustomer.firstName">
+      </div>
+    <!-- /////////////////////////////// First Name ////////////////////////////////////// -->
+    <div class="col">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="newCustomer.lastName">
+    </div>
+  </div>
+    <div class="row">
+    <!-- /////////////////////////////// Email ////////////////////////////////////// -->
+      <div class="col">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" id="email" [(ngModel)]="newCustomer.email">
+      </div>
+    <!-- /////////////////////////////// Phone ////////////////////////////////////// -->
+    <div class="col">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="text" class="form-control" name="phone" id="phone" [(ngModel)]="newCustomer.phone">
+    </div>
+  </div>
+
+      <!-- /////////////////////////////// Street ////////////////////////////////////// -->
+      <label for="street" class="form-label">Street</label>
+      <input type="text" class="form-control" name="street" id="street" [(ngModel)]="newCustomer.street">
+
+      <!-- /////////////////////////////// City ////////////////////////////////////// -->
+
+      <label for="city" class="form-label">City</label>
+      <input type="text" class="form-control" name="city" id="city" [(ngModel)]="newCustomer.city">
+
+    <div class="row">
+    <!-- /////////////////////////////// State ////////////////////////////////////// -->
+    <div class="col">
+        <label for="stateAbbreviation" class="form-label">State</label>
+        <input type="text" class="form-control" name="stateAbbreviation" id="stateAbbreviation" [(ngModel)]="newCustomer.stateAbbreviation">
+    </div>
+    <!-- /////////////////////////////// Zip ////////////////////////////////////// -->
+    <div class="col">
+        <label for="postalCode" class="form-label">Zip</label>
+        <input type="text" class="form-control" name="postalCode" id="postalCode" [(ngModel)]="newCustomer.postalCode">
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="modal.close('Save click'); createCustomer()">Add</button>
+  </div>
+</ng-template>
+
+<!-- ///////////////////////////////////////////// EDIT CUSTOMER MODAL ///////////////////////////////////////////// -->
+<ng-template #editCust let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Customer</h4>
+    <button type="button" class="btn btn-outline-dark" aria-label="Close" aria-hidden="true" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="editCustomer">
+    <div class="row">
+    <!-- /////////////////////////////// First Name ////////////////////////////////////// -->
+      <div class="col">
+        <label for="firstName" class="form-label">First Name</label>
+        <input placeholder="{{editCustomer.firstName}}" type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="editCustomer.firstName">
+      </div>
+    <!-- /////////////////////////////// First Name ////////////////////////////////////// -->
+    <div class="col">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input placeholder="{{editCustomer.lastName}}" type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="editCustomer.lastName">
+    </div>
+  </div>
+    <div class="row">
+    <!-- /////////////////////////////// Email ////////////////////////////////////// -->
+      <div class="col">
+        <label for="email" class="form-label">Email</label>
+        <input placeholder="{{editCustomer.email}}" type="email" class="form-control" name="email" id="email" [(ngModel)]="editCustomer.email">
+      </div>
+    <!-- /////////////////////////////// Phone ////////////////////////////////////// -->
+    <div class="col">
+        <label for="phone" class="form-label">Phone</label>
+        <input placeholder="{{editCustomer.phone}}" type="text" class="form-control" name="phone" id="phone" [(ngModel)]="editCustomer.phone">
+    </div>
+  </div>
+
+      <!-- /////////////////////////////// Street ////////////////////////////////////// -->
+      <label for="street" class="form-label">Street</label>
+      <input placeholder="{{editCustomer.street}}" type="text" class="form-control" name="street" id="street" [(ngModel)]="editCustomer.street">
+
+      <!-- /////////////////////////////// City ////////////////////////////////////// -->
+
+      <label for="city" class="form-label">City</label>
+      <input placeholder="{{editCustomer.city}}" type="text" class="form-control" name="city" id="city" [(ngModel)]="editCustomer.city">
+
+    <div class="row">
+    <!-- /////////////////////////////// State ////////////////////////////////////// -->
+    <div class="col">
+        <label for="stateAbbreviation" class="form-label">State</label>
+        <input placeholder="{{editCustomer.stateAbbreviation}}" type="text" class="form-control" name="stateAbbreviation" id="stateAbbreviation" [(ngModel)]="editCustomer.stateAbbreviation">
+    </div>
+    <!-- /////////////////////////////// Zip ////////////////////////////////////// -->
+    <div class="col">
+        <label for="postalCode" class="form-label">Zip</label>
+        <input placeholder="{{editCustomer.postalCode}}" type="text" class="form-control" name="postalCode" id="postalCode" [(ngModel)]="editCustomer.postalCode">
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer" *ngIf="editCustomer">
+    <button type="button" class="btn btn-outline-success" (click)="modal.close('Save click'); updateCustomer(editCustomer)">Update</button>
+  </div>
+</ng-template>

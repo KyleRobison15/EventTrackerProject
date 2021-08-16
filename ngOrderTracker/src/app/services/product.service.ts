@@ -2,12 +2,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Customer } from '../models/customer';
+import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService {
+export class ProductService {
 
   baseUrl = 'http://localhost:8084/';
   url = this.baseUrl + 'api'
@@ -17,8 +17,8 @@ export class CustomerService {
     private http: HttpClient
   ) { }
 
-  index(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.url + '/customers', this.getHttpOptions()).pipe(
+  index(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.url + '/products').pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError('OrderService.index() Error retrieving orders' + err);
@@ -26,29 +26,29 @@ export class CustomerService {
     );
   }
 
-  public create(customer: Customer){
-    return this.http.post<Customer>(this.url + '/customers', customer, this.getHttpOptions())
+  public create(product: Product){
+    return this.http.post<Product>(this.url + '/products', product, this.getHttpOptions())
     .pipe(catchError((err: any) => {
       console.log(err);
-      return throwError(`Error creating customer: ${err}`);
+      return throwError(`Error creating product: ${err}`);
     })
     );
   }
 
-  public updateCustomer(customer: Customer) {
-    return this.http.put<Customer>(this.url + '/customers', customer, this.getHttpOptions())
+  public updateProduct(product: Product) {
+    return this.http.put<Product>(this.url + '/products', product, this.getHttpOptions())
     .pipe(catchError((err: any) => {
       console.log(err);
-      return throwError(`Error updating customer: ${err}`);
+      return throwError(`Error updating product: ${err}`);
     })
     );
   }
 
   public destroy (id: number){
-    return this.http.delete<Customer>(this.url + '/customers/' + id, this.getHttpOptions())
+    return this.http.delete<Product>(this.url + '/products/' + id, this.getHttpOptions())
     .pipe(catchError((err: any) => {
       console.log(err);
-      return throwError(`Error deleting customer: ${err}`);
+      return throwError(`Error deleting product: ${err}`);
     })
     );
   }

@@ -14,6 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -26,10 +29,11 @@ public class Requisition {
 	private int id;
 	
 	@Column(name="date_placed")
+	@CreationTimestamp
 	private LocalDateTime datePlaced;
 	
 	@Column(name="due_date")
-	private LocalDateTime dueDate;
+	private String dueDate;
 	
 	private boolean completed;
 	
@@ -70,11 +74,11 @@ public class Requisition {
 		this.datePlaced = datePlaced;
 	}
 
-	public LocalDateTime getDueDate() {
+	public String getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(LocalDateTime dueDate) {
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 	

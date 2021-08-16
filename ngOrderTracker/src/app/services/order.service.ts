@@ -26,4 +26,14 @@ export class OrderService {
     );
   }
 
+  public create(order: Order){
+    order.completed = false;
+    return this.http.post<Order>(this.url + '/reqs', order)
+    .pipe(catchError((err: any) => {
+      console.log(err);
+      return throwError(`Error creating order: ${err}`);
+    })
+    );
+  }
+
 }

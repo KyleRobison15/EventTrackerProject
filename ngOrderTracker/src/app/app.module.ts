@@ -10,6 +10,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { DatePipe } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomerListComponent } from './components/customer-list/customer-list.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
 
 @NgModule({
 
@@ -18,6 +20,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     OrderListComponent,
     NavigationComponent,
     NotFoundComponent,
+    CustomerListComponent,
+    ProductListComponent,
   ],
   //Stuff that lives in angular, that we want to use in our app live in IMPORTS:
   imports: [

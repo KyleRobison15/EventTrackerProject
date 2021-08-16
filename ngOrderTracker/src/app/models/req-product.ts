@@ -2,13 +2,16 @@ import { ReqProductId } from "./req-product-id";
 
 export class ReqProduct {
 
-  id: ReqProductId;
+  id: {
+    reqId: number;
+    prodId: number;
+  };
   unitsOrdered: number;
 
-  constructor(id: ReqProductId = new ReqProductId(), unitsOrdered: number = 0)
+  constructor(reqId: number = 0, prodId: number = 0, unitsOrdered: number = 0)
 
   {
-    this.id = id;
+    this.id = {reqId, prodId};
     this.unitsOrdered = unitsOrdered;
   }
 
