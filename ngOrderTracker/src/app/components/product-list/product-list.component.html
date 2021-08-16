@@ -1,1 +1,121 @@
-<p>product-list works!</p>
+<!-- ///////////////////////////////////////////// PRODUCTS TABLE ///////////////////////////////////////////// -->
+<div *ngIf="! selected">
+  <div class="row align-items-center">
+    <div class="col">
+      <h1 class="display-1">Products </h1>
+    </div>
+    <div class="col">
+      <button class="btn btn-success btn-lg" (click)="open(addProd)">New Product</button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Unit Price</th>
+        <th scope="col">Unit Quantity</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td (click)="displayCustomer(product)">{{product.name}}</td>
+        <td (click)="displayCustomer(product)">{{product.unitPrice}}</td>
+        <td (click)="displayCustomer(product)">{{product.unitQuantity}}</td>
+        <td><button class="btn btn-danger" (click)="deleteProduct(product.id)">X</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ///////////////////////////////////////////// SINGLE PRODUCT DISPLAY ///////////////////////////////////////////// -->
+  <div id="customerDetails" *ngIf="selected">
+    <h1 class="display-6">{{selected.name}}</h1>
+    <hr>
+    <ul class="list-group">
+      Unit Price <li class="list-group-item">{{selected.unitPrice}}</li>
+      Unit Quantity <li class="list-group-item">{{selected.unitQuantity}}</li>
+    </ul>
+    <br>
+    <img width="50" height="50" src="{{selected.imageUrl}}" alt="Image of Baked Goods">
+    <br>
+    <button class="btn btn-outline-dark" (click)="displayTable()">Back</button>
+    <button class="btn btn-outline-dark" (click)="setEditProduct(); open(editProd)">Edit</button>
+  </div>
+
+  <!-- ///////////////////////////////////////////// ADD PRODUCT MODAL ///////////////////////////////////////////// -->
+  <ng-template #addProd let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">New Product</h4>
+      <button type="button" class="btn btn-outline-dark" aria-label="Close" aria-hidden="true" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- /////////////////////////////// Name ////////////////////////////////////// -->
+
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" name="name" id="name" [(ngModel)]="newProduct.name">
+
+      <!-- /////////////////////////////// Unit Price ////////////////////////////////////// -->
+      <div class="row">
+        <div class="col">
+          <label for="unitPrice" class="form-label">Unit Price</label>
+          <input type="number" class="form-control" name="unitPrice" id="unitPrice" [(ngModel)]="newProduct.unitPrice">
+        </div>
+      <!-- /////////////////////////////// Unit Qty ////////////////////////////////////// -->
+        <div class="col">
+          <label for="email" class="form-label">Unit Quantity</label>
+          <input type="number" class="form-control" name="number" id="number" [(ngModel)]="newProduct.unitQuantity">
+        </div>
+      </div>
+
+      <!-- /////////////////////////////// Image URL ////////////////////////////////////// -->
+
+      <label for="imageUrl" class="form-label">Image Url</label>
+      <input type="text" class="form-control" name="imageUrl" id="imageUrl" [(ngModel)]="newProduct.imageUrl">
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" (click)="modal.close('Save click'); createProduct()">Add</button>
+    </div>
+  </ng-template>
+
+  <!-- ///////////////////////////////////////////// EDIT PRODUCT MODAL ///////////////////////////////////////////// -->
+  <ng-template #editProd let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit Product</h4>
+      <button type="button" class="btn btn-outline-dark" aria-label="Close" aria-hidden="true" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="editProduct">
+
+        <!-- /////////////////////////////// Name ////////////////////////////////////// -->
+
+        <label for="name" class="form-label">Name</label>
+        <input placeholder="{{editProduct.name}}" type="text" class="form-control" name="name" id="name" [(ngModel)]="editProduct.name">
+
+        <!-- /////////////////////////////// Unit Price ////////////////////////////////////// -->
+        <div class="row">
+          <div class="col">
+            <label for="unitPrice" class="form-label">Unit Price</label>
+            <input placeholder="{{editProduct.name}}" type="number" class="form-control" name="unitPrice" id="unitPrice" [(ngModel)]="editProduct.unitPrice">
+          </div>
+        <!-- /////////////////////////////// Unit Qty ////////////////////////////////////// -->
+          <div class="col">
+            <label for="email" class="form-label">Unit Quantity</label>
+            <input placeholder="{{editProduct.name}}" type="number" class="form-control" name="number" id="number" [(ngModel)]="editProduct.unitQuantity">
+          </div>
+        </div>
+
+      <!-- /////////////////////////////// Image URL ////////////////////////////////////// -->
+
+      <label for="imageUrl" class="form-label">Image Url</label>
+      <input type="text" class="form-control" name="imageUrl" id="imageUrl" [(ngModel)]="editProduct.imageUrl">
+
+      </div>
+    <div class="modal-footer" *ngIf="editProduct">
+      <button type="button" class="btn btn-outline-success" (click)="modal.close('Save click'); updateProduct(editProduct)">Update</button>
+    </div>
+  </ng-template>
